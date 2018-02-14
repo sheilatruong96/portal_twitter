@@ -61,7 +61,6 @@ router.get('/:username', function(req, res) {
 
 
 router.post('/followUser/:username', function(req, res) {
-  console.log("got into follow");
   userModel.findOneAndUpdate ({
      "_id": req.user._id,
    },
@@ -93,11 +92,6 @@ router.post('/followUser/:username', function(req, res) {
     }
   });
   res.end();
-
-
-
-
-
 });
 
 module.exports = router;

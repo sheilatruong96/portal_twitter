@@ -237,3 +237,7 @@ nav {
     display: table;
     clear: both;
 }
+
+.auth-error-container {
+  color: red;
+}

@@ -23,13 +23,31 @@ router.get('/', function(req, res, next) {
   });
 });
 
+
 router.get('/loadTweet', function(req, res){
-  tweetModel.find({}, function(err, tweet){
-    if (err)
-      return console.error(err);
-    else
-      res.send(JSON.stringify(tweet));
+  userModel.findOne({"_id": req.user._id}, function(err, user){
+    if (err) return res.send(err);
+    if (user) {
+      tweetModel.find({"user.username": {$in: user.following}}, function(err, tweets){
+        if (err) {
+          return console.error(err);
+        }
+        res.send(JSON.stringify(tweets));
+      });
+    }
+    else {
+      req.session.reset();
+      res.redirect('/login');
+    }
   });
+
+
+  // tweetModel.find({}, function(err, tweet){
+  //   if (err)
+  //     return console.error(err);
+  //   else
+  //     res.send(JSON.stringify(tweet));
+  // });
 });
 
 router.post('/addTweet', function(req, res){
@@ -43,7 +61,6 @@ router.post('/addTweet', function(req, res){
   // // now, it's easy to send a message to just the clients in a given room
   // room = req.user.username;
   // io.instance().sockets.in(room).emit('message', req.body.content.trim());
-
 
   newTweet.save(function(err, tweet) {
       if(err)

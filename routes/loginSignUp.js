@@ -1,12 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require('../models/user');
+var bcrypt = require('bcrypt');
+
 
 router.get('/', function(req, res, next) {
   res.render('loginSignUp'); //views ejs file
 });
 
 router.post('/register', function(req, res) {
+  const saltRounds = 10;
+  // const myPlaintextPassword = 's0/\/\P4$$w0rD';
+  // const someOtherPlaintextPassword = 'not_bacon';
   userModel.findOne({
     email: req.body.email,
   }, function(err, user){
@@ -21,20 +26,23 @@ router.post('/register', function(req, res) {
         if (user) {
           res.render('loginSignUp', {usernameError: 'Username already in use.'});
         } else{
-          var newUser = new userModel({
-            email: req.body.email,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            username: req.body.username,
-            password: req.body.password,
-            following: [],
-            followers: []
-          });
 
-          newUser.save(function(err, user){
-            if (err) return console.error(err);
-            req.session.user = user;
-            res.redirect('/home');
+          bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+            // Store hash in your password DB.
+            var newUser = new userModel({
+              email: req.body.email,
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              username: req.body.username,
+              password: hash,
+              following: [],
+              followers: []
+            });
+            newUser.save(function(err, user){
+              if (err) return console.error(err);
+              req.session.user = user;
+              res.redirect('/home');
+            });
           });
         }
       })
@@ -44,14 +52,22 @@ router.post('/register', function(req, res) {
 
 // login
 router.post('/auth', function(req, res) {
-	userModel.findOne({email: req.body.email, password: req.body.password}, function(err, user){
+	userModel.findOne({email: req.body.email}, function(err, user){
     if(err) {
     	console.error(err);
     	res.render('loginSignUp', {authError: 'Something went wrong!'});
     }
     if (user) {
-      req.session.user = user;
-    	res.redirect('/home');
+      bcrypt.compare(req.body.password, user.password, function(err, response) {
+        if (response) {
+          req.session.user = user;
+          res.redirect('/home');
+        }
+        else {
+          res.render('loginSignUp', {authError: 'Invalid Username or Password'});
+        }
+      });
+
     } else {
     	res.render('loginSignUp', {authError: 'Invalid Username or Password'});
     }
