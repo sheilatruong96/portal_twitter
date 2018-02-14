@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+  	<script src="https://code.jquery.com/jquery-3.3.1.min.js"> </script>
+    <script src="https://use.fontawesome.com/cbe3e35fdc.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/socket.io/socket.io.js"></script>
+
+    <title>Page Title</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar navbar-light">
+      <!-- <a class="navbar-brand" href="#">Home</a> -->
+      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/home/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Moments</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Notifications</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Messages</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home/logout">Logout</a>
+          </li>
+
+          <!-- <a class="navbar-brand" href="#">Home</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search twitter" aria-label="Search">
+        </form>
+         <!-- <img class="settings" src="/images/puppy.jpg" alt="avatar"> -->
+        <button class="sendTweet" type="text">Tweet</button>
+      </div>
+    </nav>
+
+    <div class="container userHeading">
+      <div class="row">
+        <div class="col-3">
+          <div class="row topHeading">
+            <div class="col-md-12">
+              <div class="picAndName">
+                <img src="/images/puppy.jpg" alt="avatar">
+                <div data-user-id="<%= username %>" class="username">
+                  <h5> <%= firstName %> <%= lastName %> </h5>
+                  <p> @<%= username %> </p>
+                </div>
+              </div>
+              <div class="row stats">
+                <div class="col-4 following">
+                  <p>Following</p>
+                  <p> 10 </p>
+                </div>
+                <div class="col-4 totalTweets">
+                  <p>Tweets</p>
+                  <p> 100 </p>
+                </div>
+                <div class="col-4 followers">
+                  <p>Followers</p>
+                  <p> 10 </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-8 rightBody">
+          <div class="row createTweet">
+            <form id="createTweet">
+              <img class="imageNextTweet" src="/images/puppy.jpg" alt="avatar">
+              <textarea class="tweetBox" name="content" placeholder="What's happening?" rows="1"></textarea>
+              <!-- <input id="sendTweet" type="submit" value="Tweet" /> -->
+              <button id="postTweet" class="sendTweet">Tweet</button>
+            </form>
+          </div>
+
+          <!-- <i class="fas fa-spinner fa-spin"></i> -->
+          <div id="test">
+            <i id="loadIcon" class="fa fa-spinner fa-pulse"></i>
+          </div>
+
+
+          <div class="tweetPosts">
+            <!-- <div class="row">
+              <div class="col-1 eachItem">
+                <div class="row eachPost">
+                  <img src="/images/puppy.jpg" alt="avatar">
+                </div>
+              </div>
+                <div class="col-10">
+                  <div class="row">
+                    <p class="eachName"> Sheila Truong</p> <p class="eachUsername"> @sheilatruong</p> &middot; <p class="eachDate"> 14 hours ago</p>
+                  </div>
+                  <div class="row tweetMessage">
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut </p>
+                  </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-1 eachItem">
+                <div class="row eachPost">
+                  <img src="/images/avatar.png" alt="avatar">
+                </div>
+              </div>
+                <div class="col-10">
+                  <div class="row">
+                    <p class="eachName"> Sam Lee</p> <p class="eachUsername"> @samlee</p> &middot; <p class="eachDate"> 2 days ago</p>
+                  </div>
+                  <div class="row tweetMessage">
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut </p>
+                  </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+      $(function() {
+        var username = $(".username").attr('data-user-id');
+
+        $.ajax({
+          method: 'GET',
+          url: '/home/loadTweet',
+          dataType: "json"
+        })
+        .done(function(response){
+          $('#loadIcon').css('display', 'none');
+          for (i = 0; i < response.length; ++i){
+            $('.tweetPosts').prepend(`<div class="row"><div class="col-1 eachItem"><div class="row eachPost"><img src="/images/puppy.jpg" alt="avatar"></div></div><div class="col-10"><div class="row"><p class="eachName">${response[i].user.firstName} ${response[i].user.lastName}</p> <p class="eachUsername">@${response[i].user.username}</p> &middot; <p class="eachDate">${response[i].date}</p></div><div class="row tweetMessage"><p>${response[i].content}</p></div></div></div><hr>`);
+          }
+        })
+
+        $('#postTweet').on('click', function(event) {
+          $.ajax({
+            method: 'POST',
+            url: '/home/addTweet',
+            data: $('#createTweet').serialize(),
+            dataType: "json"
+          })
+          .done(function(response){
+            $('#createTweet')[0].reset();
+            $('.tweetPosts').prepend(`<div class="row"><div class="col-1 eachItem"><div class="row eachPost"><img src="/images/puppy.jpg" alt="avatar"></div></div><div class="col-10"><div class="row"><p class="eachName">${response.user.firstName} ${response.user.lastName}</p> <p class="eachUsername">@${response.user.username}</p> &middot; <p class="eachDate">${response.date}</p></div><div class="row tweetMessage"><p>${response.content}</p></div></div></div><hr>`);
+          })
+          event.preventDefault();
+      });
+      // set-up a connection between the client and the server
+      var socket = io();
+      //
+      // var username = <%- JSON.stringify(username) %>
+      // var firstName = <%- JSON.stringify(firstName) %>
+      // var lastName = <%- JSON.stringify(lastName) %>
+
+
+      socket.on('message', function(response) {
+        $('.tweetPosts').prepend(`<div class="row"><div class="col-1 eachItem"><div class="row eachPost"><img src="/images/puppy.jpg" alt="avatar"></div></div><div class="col-10"><div class="row"><p class="eachName">${response.user.firstName} ${response.user.lastName}</p> <p class="eachUsername">@${response.user.username}</p> &middot; <p class="eachDate">${response.date}</p></div><div class="row tweetMessage"><p>${response.content}</p></div></div></div><hr>`);
+         console.log('Incoming message:', response);
+      });
+
+
+    });
+
+  </script>
+
+
+  </body>
+</html>

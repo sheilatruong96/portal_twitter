@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
+	<title>Page Title</title>
+	<meta charset="utf-8">
+</head>
+
+<body>
+
+
+	<div class="row rowAuth">
+		<div id="register" class="column columnAuth">
+      <h2>Create an Account</h2>
+
+      <% if(typeof emailError !== 'undefined') { %>
+        <div class="reg-error-container">
+          <%= emailError %>
+        </div>
+      <% } %>
+
+      <% if(typeof usernameError !== 'undefined') { %>
+        <div class="auth-error-container">
+          <%= usernameError %>
+        </div>
+      <% } %>
+
+      <div class="column2">
+        <form method="POST" action="/login/register">
+            First Name: <input type="text" name="firstName" placeholder="John">
+            <br><br>
+            Last Name: <input type="text" name="lastName" placeholder="Smith">
+            <br><br>
+            Username: <input  type="text" name="username" placeholder="twitter123">
+            <br><br>
+  			    Email: <input type="email" name="email" placeholder="user@gmail.com">
+  			    <br><br>
+  			    Password: <input type="password" name="password" placeholder="********">
+  			    <br><br>
+  			    <input class="button" type="submit" value="Get Started">
+  			</form>
+      </div>
+		</div>
+
+		<div id="login" class="column columnAuth">
+      <h2>Log in</h2>
+      <div class="column2">
+        <% if(typeof authError !== 'undefined') { %>
+          <div class="auth-error-container">
+            <%= authError %>
+          </div>
+        <% } %>
+        <form method="POST" action="/login/auth">
+			    Email: <input type="text" name="email" placeholder="user@gmail.com">
+			    <br><br>
+			    Password: <input type="password" name="password" placeholder="********">
+			    <br><br>
+			    <input class="button" type="submit" value="Login">
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>

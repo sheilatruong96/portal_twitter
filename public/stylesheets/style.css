@@ -1,0 +1,239 @@
+body {
+  margin: 0;
+  height: 100%;
+  background-color: #f2f2f2;
+}
+
+nav {
+  background-color: #e3f2fd;
+  margin-bottom: 2%;
+  padding-bottom: 0;
+  padding-top: 0;
+  font-size: 14px;
+}
+
+#loadIcon{
+  font-size: 100px;
+  left: 40%;
+  position: relative;
+  /* margin-top: 10%; */
+}
+
+.followUser{
+    background-color: white;
+    /* border: 2px solid #4CAF50; /* Green */   */
+    border-radius: 12px;
+    border: 1px solid #80ccff;
+    /* background-color: #80ccff; */
+    color: #80ccff;
+}
+
+.unfollowUser {
+  /* background-color: white; */
+  /* border: 2px solid #4CAF50; /* Green */   */
+  border-radius: 12px;
+  border: 1px solid #80ccff;
+  background-color: #80ccff;
+  color: white;
+}
+
+.topHeading {
+  border: 1px solid white;
+  margin-right: 2%;
+  background: linear-gradient( #FFC0CB 50%, white 50%);
+}
+
+.rightBody {
+  margin-left: 2%;
+  /* border: 1px solid white; */
+  background-color: white;
+}
+
+#test {
+  background-color: transparent;
+}
+
+.eachItem {
+  padding:0;
+}
+.eachPost {
+  margin:0;
+}
+
+.settings {
+  border-radius: 50%;
+  width: 5% ;
+  height: 5% ;
+  padding: 1%;
+}
+
+.form-control {
+  border-radius: 40px;
+  font-size: 12px;
+}
+
+.eachPost img{
+  border-radius: 50%;
+  width: 100% ;
+  height: 100% ;
+  /* padding:1%; */
+}
+
+.picAndName{
+  text-align: center;
+  padding-top: 5%;
+}
+
+.stats {
+  font-size: 12px;
+  text-align: center;
+  padding-top: 10%;
+}
+.picAndName img {
+  float: left;
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+}
+
+.username {
+  font-size: 12px;
+}
+
+.username h5{
+  margin-bottom: 0;
+}
+
+#diffUsername p{
+  margin-bottom: 1%;
+}
+
+
+.userHeading .row .col-8 .row{
+  padding: 1%;
+}
+.eachName {
+  font-weight: bold;
+  margin-right: 3px;
+}
+
+.eachUsername {
+  margin-left: 3px;
+  margin-right: 5px;
+}
+
+.eachDate {
+  margin-left: 5px;
+}
+
+
+.imageNextTweet {
+  padding-right: 1%;
+  border-radius: 50%;
+  width: 6% ;
+  height: 95% ;
+}
+
+.userHeading .row .col-8 .row form {
+  width: 100%;
+}
+
+.userHeading .row .col-8 .createTweet {
+    background-color: #ccebff;
+}
+
+.tweetBox {
+  position: absolute;
+  width: 83%;
+  border: 1px solid #80bfff;
+  resize: none;
+  border-radius: 10px;
+}
+
+.sendTweet {
+  border-radius: 12px;
+  border: 1px solid #80ccff;
+  background-color: #80ccff;
+  color: white;
+  text-align: center;
+  float:right;
+}
+
+.tweetMessage {
+  font-size: 12px;
+}
+
+/* Login and Sign Up Page */
+#register {
+    border-right: 1px solid black;
+}
+
+#register form {
+    color: #dab3ff;
+}
+
+#register h2 {
+    color: black;
+}
+
+#register input[type=text]:focus, input[type=password]:focus {
+    background-color: #f1f1f1;
+    border: 3px solid #555;
+}
+
+#register a {
+    font-size: 12px;
+}
+
+#login {
+  padding-top: 4%;
+}
+#login form {
+    color: #dab3ff;
+}
+
+#login h2 {
+    color: black;
+}
+
+#login input[type=text]:focus, input[type=password]:focus {
+    background-color: #f1f1f1;
+    border: 3px solid #555;
+}
+
+#login a {
+    font-size: 12px;
+}
+
+
+.rowAuth {
+    text-align: center;
+    padding-top: 5%;
+}
+.columnAuth {
+    float: left;
+    width: 49%;
+}
+.column2 {
+  display: inline-block;
+  text-align:left;
+}
+.column2 input {
+  float:right;
+}
+
+.button {
+  border-radius: 12px;
+  border: 1px solid #80ccff;
+  background-color: #80ccff;
+  color: white;
+  text-align: center;
+  float:right;
+}
+
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}

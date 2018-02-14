@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+  	<script src="https://code.jquery.com/jquery-3.3.1.min.js"> </script>
+    <script src="https://use.fontawesome.com/cbe3e35fdc.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/socket.io/socket.io.js"></script>
+
+    <title>Page Title</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar navbar-light">
+      <!-- <a class="navbar-brand" href="#">Home</a> -->
+      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/home/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Moments</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Notifications</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Messages</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home/logout">Logout</a>
+          </li>
+
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search twitter" aria-label="Search">
+        </form>
+        <button class="sendTweet" type="text">Tweet</button>
+      </div>
+    </nav>
+
+    <div class="container userHeading">
+      <div class="row">
+        <div class="col-3">
+          <div class="row topHeading">
+            <div class="col-md-12">
+              <div class="picAndName">
+                <img src="/images/puppy.jpg" alt="avatar">
+                <div data-user-id="<%= username %>" class="username">
+                  <h5> <%= firstName %> <%= lastName %> </h5>
+                  <% if (username !== currentUser) {%>
+                    <% if(following) {%>
+                      <p id="diffUsername"> @<%= username %> </p>
+                      <button data-user-id="<%= username %>" class="unfollowUser">following</button>
+                    <% } else { %>
+                      <p id="diffUsername"> @<%= username %> </p>
+                      <button data-user-id="<%= username %>" class="followUser">follow</button>
+                    <% } %>
+                  <% } else { %>
+                    <p> @<%= username %> </p>
+                  <% }%>
+                </div>
+              </div>
+              <div class="row stats">
+                <div class="col-4 following">
+                  <p>Following</p>
+                  <p> 10 </p>
+                </div>
+                <div class="col-4 totalTweets">
+                  <p>Tweets</p>
+                  <p> 100 </p>
+                </div>
+                <div class="col-4 followers">
+                  <p>Followers</p>
+                  <p> 10 </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-8 rightBody">
+
+          <div id="test">
+            <i id="loadIcon" class="fa fa-spinner fa-pulse"></i>
+          </div>
+
+
+          <div class="tweetPosts">
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+      $(function() {
+        var username = $(".username").attr('data-user-id');
+        $.ajax({
+          method: 'GET',
+          url: `/profile/loadTweet/${username}`,
+          dataType: "json"
+        })
+        .done(function(response){
+          $('#loadIcon').css('display', 'none');
+          for (i = 0; i < response.length; ++i){
+            $('.tweetPosts').prepend(`<div class="row"><div class="col-1 eachItem"><div class="row eachPost"><img src="/images/puppy.jpg" alt="avatar"></div></div><div class="col-10"><div class="row"><p class="eachName">${response[i].user.firstName} ${response[i].user.lastName}</p> <p class="eachUsername">@${response[i].user.username}</p> &middot; <p class="eachDate">${response[i].date}</p></div><div class="row tweetMessage"><p>${response[i].content}</p></div></div></div><hr>`);
+          }
+        })
+
+        $('.followUser').on('click', function(event) {
+          var username = $(this).attr('data-user-id');
+          $('.followUser').replaceWith('<button class="unfollowUser">following</button>');
+          $.ajax({
+            method: 'POST',
+            url: `/profile/followUser/${username}`,
+            // data: $('#createTweet').serialize(),
+            // dataType: "json"
+          })
+          // .done(function(response){
+          //   // $('#createTweet')[0].reset();
+          //   // $('.tweetPosts').prepend(`<div class="row"><div class="col-1 eachItem"><div class="row eachPost"><img src="/images/puppy.jpg" alt="avatar"></div></div><div class="col-10"><div class="row"><p class="eachName">${response.user.firstName} ${response.user.lastName}</p> <p class="eachUsername">@${response.user.username}</p> &middot; <p class="eachDate">${response.date}</p></div><div class="row tweetMessage"><p>${response.content}</p></div></div></div><hr>`);
+          // })
+          event.preventDefault();
+      });
+
+
+
+
+
+
+      // var socket = io();
+      // socket.on('newPweet', function(msg){
+      //   console.log("hi");
+      // });
+    });
+
+  </script>
+
+
+  </body>
+</html>
