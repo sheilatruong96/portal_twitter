@@ -60,7 +60,7 @@
             <div class="col-md-12">
               <div class="picAndName">
                 <img src="/images/puppy.jpg" alt="avatar">
-                <div data-user-id="<%= username %>" class="username">
+                <div id="table-listener" data-user-id="<%= username %>" class="username">
                   <h5> <%= firstName %> <%= lastName %> </h5>
                   <% if (username !== currentUser) {%>
                     <% if(following) {%>
@@ -78,15 +78,15 @@
               <div class="row stats">
                 <div class="col-4 following">
                   <p>Following</p>
-                  <p> 10 </p>
+                  <p> <%= followingNum %> </p>
                 </div>
                 <div class="col-4 totalTweets">
                   <p>Tweets</p>
-                  <p> 100 </p>
+                  <p> <%= tweetsNum %> </p>
                 </div>
                 <div class="col-4 followers">
                   <p>Followers</p>
-                  <p> 10 </p>
+                  <p> <%= followersNum %> </p>
                 </div>
               </div>
             </div>
@@ -130,21 +130,25 @@
           }
         })
 
-        $('.followUser').on('click', function(event) {
+        $('#table-listener').on('click', '.followUser', function(event) {
           var username = $(this).attr('data-user-id');
           $('.followUser').replaceWith('<button class="unfollowUser">following</button>');
           $.ajax({
             method: 'POST',
-            url: `/profile/followUser/${username}`,
-            // data: $('#createTweet').serialize(),
-            // dataType: "json"
+            url: `/profile/${username}/follow`
           })
-          // .done(function(response){
-          //   // $('#createTweet')[0].reset();
-          //   // $('.tweetPosts').prepend(`<div class="row"><div class="col-1 eachItem"><div class="row eachPost"><img src="/images/puppy.jpg" alt="avatar"></div></div><div class="col-10"><div class="row"><p class="eachName">${response.user.firstName} ${response.user.lastName}</p> <p class="eachUsername">@${response.user.username}</p> &middot; <p class="eachDate">${response.date}</p></div><div class="row tweetMessage"><p>${response.content}</p></div></div></div><hr>`);
-          // })
           event.preventDefault();
-      });
+        });
+
+        $('#table-listener').on('click', '.unfollowUser', function(event) {
+          var username = $(this).attr('data-user-id');
+          $('.unfollowUser').replaceWith('<button class="followUser">follow</button>');
+          $.ajax({
+            method: 'POST',
+            url: `/profile/${username}/unfollow`
+          })
+          event.preventDefault();
+        });
 
 
 

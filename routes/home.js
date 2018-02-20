@@ -14,12 +14,25 @@ router.get('/', function(req, res, next) {
     if (err)
       return console.error(err);
     else
-      res.render('home', {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        followers: user.followers,
+    {
+      var tweetCount = 0;
+      tweetModel.count({"user.username": req.user.username}, function(err, tweets){
+        if (err) console.error(err);
+        else {
+          res.render('home', {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            followers: user.followers,
+            followersNum: user.followers.length,
+            followingNum: user.following.length,
+            tweetsNum: tweets
+          });
+
+        }
       });
+    }
+
   });
 });
 
@@ -28,7 +41,8 @@ router.get('/loadTweet', function(req, res){
   userModel.findOne({"_id": req.user._id}, function(err, user){
     if (err) return res.send(err);
     if (user) {
-      tweetModel.find({"user.username": {$in: user.following}}, function(err, tweets){
+      tweetModel.find({$or:[{"user.username": {$in: user.following}}, {"user.username": req.user.username}]}, function(err, tweets){
+      // tweetModel.find({"user.username": {$in: user.following}}, function(err, tweets){
         if (err) {
           return console.error(err);
         }
@@ -40,14 +54,6 @@ router.get('/loadTweet', function(req, res){
       res.redirect('/login');
     }
   });
-
-
-  // tweetModel.find({}, function(err, tweet){
-  //   if (err)
-  //     return console.error(err);
-  //   else
-  //     res.send(JSON.stringify(tweet));
-  // });
 });
 
 router.post('/addTweet', function(req, res){
@@ -56,11 +62,6 @@ router.post('/addTweet', function(req, res){
   	date: new Date(),
   	user: req.user,
   });
-
-
-  // // now, it's easy to send a message to just the clients in a given room
-  // room = req.user.username;
-  // io.instance().sockets.in(room).emit('message', req.body.content.trim());
 
   newTweet.save(function(err, tweet) {
       if(err)
