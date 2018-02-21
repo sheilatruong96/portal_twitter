@@ -43,7 +43,13 @@ router.post('/register', function(req, res) {
             newUser.save(function(err, user){
               if (err) return console.error(err);
               req.session.user = user;
-              res.redirect('/home');
+              if (req.get('origin') === 'http://localhost:3000') {
+  
+                res.send(JSON.stringify({"url": req.get('referer')}))
+
+              } else {
+                res.redirect('/home');
+              }
             });
           // });
         }

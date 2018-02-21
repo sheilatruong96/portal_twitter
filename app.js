@@ -22,6 +22,12 @@ var mongoose = require('mongoose');
 
 var app = express();
 
+var cors = require('cors');
+
+var app = express();
+app.use(cors({credentials: true, origin: true}));
+
+
 mongoose.connect('mongodb://localhost/twitter');
 
 var db = mongoose.connection;
@@ -30,6 +36,11 @@ db.once('open', function() {
 	console.log('CONNECTED TO MONGO');
 });
 
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
 // just added
 app.use(session(userSession));
@@ -52,6 +63,8 @@ app.use(function(req, res, next) {
     next();
   }
 });
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
