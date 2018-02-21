@@ -42,7 +42,6 @@ router.get('/loadTweet', function(req, res){
     if (err) return res.send(err);
     if (user) {
       tweetModel.find({$or:[{"user.username": {$in: user.following}}, {"user.username": req.user.username}]}, function(err, tweets){
-      // tweetModel.find({"user.username": {$in: user.following}}, function(err, tweets){
         if (err) {
           return console.error(err);
         }
@@ -71,8 +70,21 @@ router.post('/addTweet', function(req, res){
         room = req.user.username;
         io.instance().sockets.in(room).emit('message', tweet);
 
-        res.status(201).json(tweet);
-
+        tweetModel.count({"user.username": req.user.username}, function(err, count){
+          if (err) return res.send(err);
+          else {
+            // res.status(201).json(tweet);
+            res.send(JSON.stringify(
+              {
+                content: tweet.content,
+                date: tweet.date,
+                email: tweet.user.email,
+                firstName: tweet.user.firstName,
+                lastName: tweet.user.lastName,
+                tweetCount: count
+              }));
+          }
+        });
       }
   });
 });
