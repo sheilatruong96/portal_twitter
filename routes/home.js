@@ -81,6 +81,7 @@ router.post('/addTweet', function(req, res){
                 email: tweet.user.email,
                 firstName: tweet.user.firstName,
                 lastName: tweet.user.lastName,
+                username: tweet.user.username,
                 tweetCount: count
               }));
           }

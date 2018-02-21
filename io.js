@@ -18,8 +18,8 @@ module.exports = {
                 return console.error(err);
 
               if (user){
-                for (i = 0; i < user.followers.length; ++i){
-                  socket.join(user.followers[i]);
+                for (i = 0; i < user.following.length; ++i){
+                  socket.join(user.following[i]);
                 }
               }
               else {
